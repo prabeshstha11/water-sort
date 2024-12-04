@@ -42,7 +42,7 @@ public class WaterSortVisualizer extends JPanel {
             if (stack != null) {
                 for (int j = 0; j < stack.size(); j++) {
                     String colorName = stack.get(stack.size() - 1 - j); // Top element is drawn first
-                    Color color = getColor(colorName);
+                    Color color = Color.decode(colorName);
 
                     if (color != null) {
                         g2d.setColor(color);
@@ -52,18 +52,5 @@ public class WaterSortVisualizer extends JPanel {
                 }
             }
         }
-    }
-
-    private Color getColor(String colorName) {
-        return switch (colorName.toUpperCase()) {
-            case "RED" -> Color.RED;
-            case "BLUE" -> Color.BLUE;
-            case "GREEN" -> Color.GREEN;
-            case "YELLOW" -> Color.YELLOW;
-            case "ORANGE" -> Color.ORANGE;
-            case "PURPLE" -> new Color(128, 0, 128); // Custom color for purple
-            case "GRAY" -> Color.GRAY;
-            default -> null; // Handle unknown colors
-        };
     }
 }

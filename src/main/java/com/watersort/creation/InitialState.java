@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class InitialState {
-    public String[] colors = { "RED", "BLUE", "GREEN", "YELLOW", "ORANGE", "PURPLE", "GRAY" };
+    public String[] colors = { "#FF0000", "#0000FF", "#006400", "#FFD700", "#FF8C00", "#8A2BE2", "#A9A9A9", "#FFC0CB",
+            "#00CED1", "#8B4513", "#000000" };
 
     // creating bottle
     // lets say there are 7 colors
