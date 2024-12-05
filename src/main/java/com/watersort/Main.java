@@ -19,7 +19,8 @@ public class Main {
 
         JFrame frame = new JFrame("Water Sort Visualizer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 400);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setResizable(false);
 
         WaterSortVisualizer visualizer = new WaterSortVisualizer(bottle);
         frame.add(visualizer);
