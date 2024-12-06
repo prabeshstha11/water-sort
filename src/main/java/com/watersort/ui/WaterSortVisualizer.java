@@ -58,8 +58,11 @@ public class WaterSortVisualizer extends JPanel {
                             selectedBottleIndex = i;
                             playAudio("sfx/select.wav");
                         } else {
-                            state.transferWater(selectedBottleIndex, i, WaterSortVisualizer.this);
-                            playAudio("sfx/pour.wav");
+                            if (state.transferWater(selectedBottleIndex, i, WaterSortVisualizer.this)) {
+                                playAudio("sfx/pour.wav");
+                            } else {
+                                playAudio("sfx/error.wav");
+                            }
                             selectedBottleIndex = null;
                         }
                         break;

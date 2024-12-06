@@ -29,32 +29,38 @@ public class InitialState {
         return bottle;
     }
 
-    public void transferWater(int fromBottle, int toBottle, WaterSortVisualizer visualizer) {
+    public boolean transferWater(int fromBottle, int toBottle, WaterSortVisualizer visualizer) {
         /*
          * false conditions
          */
 
         // toBottle shall not be full
         if (bottle.get(toBottle).size() == BOTTLE_SIZE) {
-            return;
+            return false;
         }
 
         // fromBottle shall not be empty
         if (bottle.get(fromBottle).isEmpty()) {
-            return;
+            return false;
         }
 
         // if toBottle is empty you can shift
         // but if it is not peek shall match...
         if (!bottle.get(toBottle).isEmpty()) {
             if (!bottle.get(fromBottle).peek().equals(bottle.get(toBottle).peek())) {
-                return;
+                return false;
             }
+        }
+
+        // to and from bottle can't be same
+        if (toBottle == fromBottle) {
+            return false;
         }
 
         String getCurrentColor = bottle.get(fromBottle).pop();
         bottle.get(toBottle).push(getCurrentColor);
 
         visualizer.repaint();
+        return true;
     }
 }
