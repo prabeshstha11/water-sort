@@ -7,9 +7,17 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import com.watersort.creation.InitialState;
@@ -21,6 +29,18 @@ public class WaterSortVisualizer extends JPanel {
     private final InitialState state;
 
     private Integer selectedBottleIndex = null;
+
+    public void playAudio(String audioPath) {
+        try {
+            File audioFile = new File(getClass().getClassLoader().getResource(audioPath).toURI());
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (IOException | URISyntaxException | LineUnavailableException | UnsupportedAudioFileException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public WaterSortVisualizer(InitialState state) {
         this.state = state;
@@ -36,8 +56,10 @@ public class WaterSortVisualizer extends JPanel {
                     if (bottleBounds.get(i).contains(point)) {
                         if (selectedBottleIndex == null) {
                             selectedBottleIndex = i;
+                            playAudio("sfx/select.wav");
                         } else {
                             state.transferWater(selectedBottleIndex, i, WaterSortVisualizer.this);
+                            playAudio("sfx/pour.wav");
                             selectedBottleIndex = null;
                         }
                         break;
