@@ -3,17 +3,48 @@ package com.watersort.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.JPanel;
 
+import com.watersort.creation.InitialState;
+
 public class WaterSortVisualizer extends JPanel {
 
     private final ArrayList<Stack<String>> bottle;
+    private final ArrayList<Rectangle> bottleBounds;
+    private final InitialState state;
 
-    public WaterSortVisualizer(ArrayList<Stack<String>> bottle) {
-        this.bottle = bottle;
+    private Integer selectedBottleIndex = null;
+
+    public WaterSortVisualizer(InitialState state) {
+        this.state = state;
+        this.bottle = this.state.bottleInitializer();
+        this.bottleBounds = new ArrayList<>();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Point point = e.getPoint();
+
+                for (int i = 0; i < bottleBounds.size(); i++) {
+                    if (bottleBounds.get(i).contains(point)) {
+                        if (selectedBottleIndex == null) {
+                            selectedBottleIndex = i;
+                        } else {
+                            state.transferWater(selectedBottleIndex, i, WaterSortVisualizer.this);
+                            selectedBottleIndex = null;
+                        }
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -26,10 +57,15 @@ public class WaterSortVisualizer extends JPanel {
         int bottleSpacing = 20;
         int liquidHeight = 40;
 
+        bottleBounds.clear();
+
         // Draw each bottle
         for (int i = 0; i < bottle.size(); i++) {
             int x = 50 + i * (bottleWidth + bottleSpacing);
             int y = 50;
+
+            Rectangle bottleRectangle = new Rectangle(x, y, bottleWidth, bottleHeight);
+            bottleBounds.add(bottleRectangle);
 
             // Draw bottle outline
             g2d.setColor(Color.BLACK);
