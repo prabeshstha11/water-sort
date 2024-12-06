@@ -44,13 +44,13 @@ public class InitialState {
             return;
         }
 
-        // toBottle top color must be equal to fromBottle top
-        // or toBottle shall be empty
-        // if (bottle.get(toBottle).isEmpty()) {
-        // if (bottle.get(toBottle).peek().equals(bottle.get(fromBottle).peek())) {
-        // return;
-        // }
-        // }
+        // if toBottle is empty you can shift
+        // but if it is not peek shall match...
+        if (!bottle.get(toBottle).isEmpty()) {
+            if (!bottle.get(fromBottle).peek().equals(bottle.get(toBottle).peek())) {
+                return;
+            }
+        }
 
         String getCurrentColor = bottle.get(fromBottle).pop();
         bottle.get(toBottle).push(getCurrentColor);
