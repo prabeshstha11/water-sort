@@ -26,7 +26,7 @@ import com.watersort.creation.InitialState;
 
 public class WaterSortVisualizer extends JPanel {
 
-    private final ArrayList<Stack<String>> bottle;
+    private ArrayList<Stack<String>> bottle;
     private final ArrayList<Rectangle> bottleBounds;
     private final InitialState state;
 
@@ -130,6 +130,13 @@ public class WaterSortVisualizer extends JPanel {
 
         JButton newGameButton = new JButton("New Game");
         controllerPanel.add(newGameButton);
+
+        newGameButton.addActionListener(e -> {
+            bottle.clear();
+            bottle = this.state.bottleInitializer();
+            playAudio("sfx/new.wav");
+            repaint();
+        });
 
         JButton viewSolutionButton = new JButton("View Solution");
         controllerPanel.add(viewSolutionButton);
