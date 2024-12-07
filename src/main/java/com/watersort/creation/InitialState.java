@@ -1,6 +1,8 @@
 package com.watersort.creation;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Stack;
 
 import com.watersort.ui.WaterSortVisualizer;
@@ -16,43 +18,45 @@ public class InitialState {
     int BOTTLE_SIZE = 4;
 
     public ArrayList<Stack<String>> bottleInitializer() {
+        Random rand = new Random();
+
         for (int i = 0; i < BOTTLE_COUNT; i++) {
             bottle.add(new Stack<>());
         }
 
-        for (int i = 0; i < FILLED_BOTTLES; i++) {
+        ArrayList<String> shuffledColors = new ArrayList<>();
+        for (String color : colors) {
             for (int j = 0; j < BOTTLE_SIZE; j++) {
-                bottle.get(i).push(colors[i]);
+                shuffledColors.add(color);
             }
         }
+        Collections.shuffle(shuffledColors, rand);
 
+        int blockIndex = 0;
+        for (int i = 0; i < FILLED_BOTTLES; i++) {
+            while (bottle.get(i).size() < BOTTLE_SIZE) {
+                bottle.get(i).push(shuffledColors.get(blockIndex));
+                blockIndex++;
+            }
+        }
         return bottle;
     }
 
     public boolean transferWater(int fromBottle, int toBottle, WaterSortVisualizer visualizer) {
-        /*
-         * false conditions
-         */
-
-        // toBottle shall not be full
         if (bottle.get(toBottle).size() == BOTTLE_SIZE) {
             return false;
         }
 
-        // fromBottle shall not be empty
         if (bottle.get(fromBottle).isEmpty()) {
             return false;
         }
 
-        // if toBottle is empty you can shift
-        // but if it is not peek shall match...
         if (!bottle.get(toBottle).isEmpty()) {
             if (!bottle.get(fromBottle).peek().equals(bottle.get(toBottle).peek())) {
                 return false;
             }
         }
 
-        // to and from bottle can't be same
         if (toBottle == fromBottle) {
             return false;
         }
