@@ -61,8 +61,34 @@ public class InitialState {
             return false;
         }
 
-        String getCurrentColor = bottle.get(fromBottle).pop();
-        bottle.get(toBottle).push(getCurrentColor);
+        // get top color
+        String currentColor = bottle.get(fromBottle).peek();
+
+        // see if same color exists below, if same color exists, you need to move all...
+        int sameColorCount = 0;
+        Stack<String> temp = new Stack<>();
+
+        // fromBottle not empty
+        // you have stored peek color, so check and count them.. (1 or 2 or 3)
+        // store at temp by taking from...
+        while (!bottle.get(fromBottle).isEmpty() && bottle.get(fromBottle).peek().equals(currentColor)) {
+            temp.push(bottle.get(fromBottle).pop());
+            sameColorCount++;
+        }
+
+        // sameColor count = how much?
+        // as toBottle cannot hold more than 4, if there is already 3, you can't send
+        // 2...
+        if (bottle.get(toBottle).size() + sameColorCount > BOTTLE_SIZE) {
+            // you have stored at temp, so take out from temp and store to toBottle...
+            while (!temp.isEmpty()) {
+                bottle.get(fromBottle).push(temp.pop());
+            }
+        }
+
+        while (!temp.isEmpty()) {
+            bottle.get(toBottle).push(temp.pop());
+        }
 
         visualizer.repaint();
         return true;
