@@ -105,7 +105,7 @@ public class WaterSortVisualizer extends JPanel {
                     // Draw each liquid inside the bottle
                     if (stack != null) {
                         for (int j = 0; j < stack.size(); j++) {
-                            String colorName = stack.get(stack.size() - 1 - j); // Top element is drawn first
+                            String colorName = stack.get(j);
                             Color color = Color.decode(colorName);
 
                             if (color != null) {
