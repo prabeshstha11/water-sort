@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 import com.watersort.creation.InitialState;
 
-public class WaterSortVisualizer extends JPanel {
+public class WaterSortGame extends JPanel {
 
     private ArrayList<Stack<String>> bottle;
     private final ArrayList<Rectangle> bottleBounds;
@@ -44,7 +44,7 @@ public class WaterSortVisualizer extends JPanel {
         }
     }
 
-    public WaterSortVisualizer(InitialState state) {
+    public WaterSortGame(InitialState state) {
         this.state = state;
         this.bottle = this.state.bottleInitializer();
         this.bottleBounds = new ArrayList<>();
@@ -60,7 +60,7 @@ public class WaterSortVisualizer extends JPanel {
                             selectedBottleIndex = i;
                             playAudio("sfx/select.wav");
                         } else {
-                            if (state.transferWater(selectedBottleIndex, i, WaterSortVisualizer.this)) {
+                            if (state.transferWater(selectedBottleIndex, i, WaterSortGame.this)) {
                                 playAudio("sfx/pour.wav");
                             } else {
                                 playAudio("sfx/error.wav");

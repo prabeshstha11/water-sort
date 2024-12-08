@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
-import com.watersort.ui.WaterSortVisualizer;
+import com.watersort.ui.WaterSortGame;
 
 public class InitialState {
+    // Initialize required bottles, waters and size...
     public String[] colors = { "#FF0000", "#0000FF", "#006400", "#FFD700", "#FF8C00", "#8A2BE2", "#A9A9A9", "#FFC0CB",
             "#00CED1", "#8B4513", "#161616" };
     public static ArrayList<Stack<String>> bottle = new ArrayList<>();
@@ -17,6 +18,7 @@ public class InitialState {
     int BOTTLE_COUNT = FILLED_BOTTLES + EMPTY_BOTTLES;
     int BOTTLE_SIZE = 4;
 
+    // Game Start State
     public ArrayList<Stack<String>> bottleInitializer() {
         Random rand = new Random();
 
@@ -42,7 +44,8 @@ public class InitialState {
         return bottle;
     }
 
-    public boolean transferWater(int fromBottle, int toBottle, WaterSortVisualizer visualizer) {
+    // Transfer Water
+    public boolean transferWater(int fromBottle, int toBottle, WaterSortGame waterSortGame) {
         if (bottle.get(toBottle).size() == BOTTLE_SIZE) {
             return false;
         }
@@ -90,7 +93,7 @@ public class InitialState {
             bottle.get(toBottle).push(temp.pop());
         }
 
-        visualizer.repaint();
+        waterSortGame.repaint();
         return true;
     }
 }
