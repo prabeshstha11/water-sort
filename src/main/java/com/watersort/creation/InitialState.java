@@ -8,17 +8,18 @@ import java.util.Stack;
 import com.watersort.ui.WaterSortGame;
 
 public class InitialState {
-    // Initialize required bottles, waters and size...
-    public String[] colors = { "#FF0000", "#0000FF", "#006400", "#FFD700", "#FF8C00", "#8A2BE2", "#A9A9A9", "#FFC0CB",
-            "#00CED1", "#8B4513", "#161616" };
+    // predefinded colors for the water
+    public String[] colors = { "#FF0000", "#0000FF", "#006400", "#FFD700", "#FF8C00",
+            "#8A2BE2", "#A9A9A9", "#FFC0CB", "#00CED1", "#8B4513", "#161616" };
     public static ArrayList<Stack<String>> bottle = new ArrayList<>();
 
+    // configurable constants
     int EMPTY_BOTTLES = 3;
     int FILLED_BOTTLES = colors.length;
     int BOTTLE_COUNT = FILLED_BOTTLES + EMPTY_BOTTLES;
     int BOTTLE_SIZE = 4;
 
-    // Game Start State
+    // initial game state: by adding random colors to all bottles
     public ArrayList<Stack<String>> bottleInitializer() {
         Random rand = new Random();
 
@@ -44,46 +45,57 @@ public class InitialState {
         return bottle;
     }
 
-    // Transfer Water
+    // transfer the water from one bottle to another
     public boolean transferWater(int fromBottle, int toBottle, WaterSortGame waterSortGame) {
+
+        // if toBottle is full cannot transfer
         if (bottle.get(toBottle).size() == BOTTLE_SIZE) {
             return false;
         }
 
+        // if fromBottle is empty cannot transfer
         if (bottle.get(fromBottle).isEmpty()) {
             return false;
         }
 
+        // if toBottle and fromBottle peek doesn't match cannot transfer
+        // but if toBottle is empty you don't have to check the above condition
         if (!bottle.get(toBottle).isEmpty()) {
             if (!bottle.get(fromBottle).peek().equals(bottle.get(toBottle).peek())) {
                 return false;
             }
         }
 
+        // toBottle and fromBottle cannot be same
         if (toBottle == fromBottle) {
             return false;
         }
 
-        // get top color
+        /*
+         * if fromBottle top consists of one color, below it if there is same color you
+         * have to transfer all not just the peek
+         */
+
+        // Get peek color of fromBottle
         String currentColor = bottle.get(fromBottle).peek();
 
-        // see if same color exists below, if same color exists, you need to move all...
+        // See if same color exists below
         int sameColorCount = 0;
         Stack<String> temp = new Stack<>();
 
-        // fromBottle not empty
-        // you have stored peek color, so check and count them.. (1 or 2 or 3)
-        // store at temp by taking from...
+        // you have stored peek color, so check and count them...
+        // now store it to temp for now...
         while (!bottle.get(fromBottle).isEmpty() && bottle.get(fromBottle).peek().equals(currentColor)) {
             temp.push(bottle.get(fromBottle).pop());
             sameColorCount++;
         }
 
-        // sameColor count = how much?
-        // as toBottle cannot hold more than 4, if there is already 3, you can't send
-        // 2...
+        // count the total same color existing in the peeks
+        // also check the size of toBottle
+        // * this condition for if you have to transfer 2 and the toBottle size is
+        // already 3, so you cannot transfer them... */
         if (bottle.get(toBottle).size() + sameColorCount > BOTTLE_SIZE) {
-            // you have stored at temp, so take out from temp and store to toBottle...
+            // Now, transfer from temp to toBottle
             while (!temp.isEmpty()) {
                 bottle.get(fromBottle).push(temp.pop());
             }
