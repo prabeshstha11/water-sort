@@ -125,8 +125,30 @@ public class WaterSortGame extends JPanel {
         JButton undoButton = new JButton("Undo");
         controllerPanel.add(undoButton);
 
+        undoButton.addActionListener(e -> {
+            if (this.state.checkGameHistory()) {
+                bottle.clear();
+                bottle = this.state.perfomUndo();
+                playAudio("sfx/undo.wav");
+                repaint();
+            } else {
+                playAudio("sfx/error.wav");
+            }
+        });
+
         JButton restartButton = new JButton("Restart");
         controllerPanel.add(restartButton);
+
+        restartButton.addActionListener(e -> {
+            if (this.state.checkGameHistory()) {
+                bottle.clear();
+                bottle = this.state.restartGame();
+                playAudio("sfx/restart.wav");
+                repaint();
+            } else {
+                playAudio("sfx/error.wav");
+            }
+        });
 
         JButton newGameButton = new JButton("New Game");
         controllerPanel.add(newGameButton);

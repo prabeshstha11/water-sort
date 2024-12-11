@@ -2,6 +2,7 @@ package com.watersort.creation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -13,6 +14,8 @@ public class InitialState {
             "#8A2BE2", "#A9A9A9", "#FFC0CB", "#00CED1", "#8B4513", "#161616" };
     public static ArrayList<Stack<String>> bottle = new ArrayList<>();
 
+    public LinkedList<ArrayList<Stack<String>>> gameHistory = new LinkedList<>();
+
     // configurable constants
     int EMPTY_BOTTLES = 3;
     int FILLED_BOTTLES = colors.length;
@@ -21,6 +24,7 @@ public class InitialState {
 
     // initial game state: by adding random colors to all bottles
     public ArrayList<Stack<String>> bottleInitializer() {
+        gameHistory.clear();
         Random rand = new Random();
 
         for (int i = 0; i < BOTTLE_COUNT; i++) {
@@ -42,6 +46,8 @@ public class InitialState {
                 blockIndex++;
             }
         }
+
+        saveState(bottle);
         return bottle;
     }
 
@@ -105,7 +111,73 @@ public class InitialState {
             bottle.get(toBottle).push(temp.pop());
         }
 
+        saveState(bottle);
         waterSortGame.repaint();
         return true;
+    }
+
+    // saving the recent state
+    public void saveState(ArrayList<Stack<String>> currentState) {
+        ArrayList<Stack<String>> temp = new ArrayList<>();
+        for (Stack<String> stack : bottle) {
+            Stack<String> listStack = new Stack<>();
+            listStack.addAll(stack);
+            temp.add(listStack);
+        }
+
+        gameHistory.add(temp);
+    }
+
+    // perform undo operation
+    public ArrayList<Stack<String>> perfomUndo() {
+        if (gameHistory.size() > 1) {
+            gameHistory.removeLast();
+            // System.out.println(gameHistory);
+
+            ArrayList<Stack<String>> previousState = gameHistory.getLast();
+
+            bottle.clear();
+
+            for (Stack<String> stack : previousState) {
+                Stack<String> newStack = new Stack<>();
+                newStack.addAll(stack);
+                bottle.add(newStack);
+            }
+            return bottle;
+        }
+
+        ArrayList<Stack<String>> previousState = gameHistory.getFirst();
+
+        bottle.clear();
+
+        for (Stack<String> stack : previousState) {
+            Stack<String> newStack = new Stack<>();
+            newStack.addAll(stack);
+            bottle.add(newStack);
+        }
+        return bottle;
+    }
+
+    // check the linked list to perfom undo operation
+    public boolean checkGameHistory() {
+        return gameHistory.size() > 1;
+    }
+
+    // new game state
+    public ArrayList<Stack<String>> restartGame() {
+        ArrayList<Stack<String>> previousState = gameHistory.getFirst();
+
+        bottle.clear();
+
+        for (Stack<String> stack : previousState) {
+            Stack<String> newStack = new Stack<>();
+            newStack.addAll(stack);
+            bottle.add(newStack);
+        }
+
+        gameHistory.clear();
+        saveState(bottle);
+
+        return bottle;
     }
 }
