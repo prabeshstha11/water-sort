@@ -3,10 +3,10 @@ package com.watersort.config;
 public class Config {
     private final int bottleSize = 4;
     private final int emptyBottle = 3;
-    private final String[] colors = { "#023C40", "#33FF57", "#3357FF",
-            "#54426B", "#FF9133", "#33FFF7",
-            "#F733FF", "#57FF33", "#F7FF33",
-            "#5733FF", "#E4E6C3" };
+    private final String[] colors = { "#FF773D", "#D67AB1", "#37FF8B",
+            "#A8DCD9", "#401F3E", "#453F78",
+            "#FAF2A1", "#D11149", "#6610F2",
+            "#7C898B", "#FEEA00" };
 
     public int getBottleSize() {
         return bottleSize;
