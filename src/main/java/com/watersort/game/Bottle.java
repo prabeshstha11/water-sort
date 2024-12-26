@@ -73,4 +73,10 @@ public class Bottle {
             stack.push(color);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Bottle{" + "size=" + size + ", stack=" + stack + '}';
+    }
+
 }
