@@ -4,10 +4,10 @@ import java.util.Stack;
 
 public class Bottle {
     private final Stack<String> stack = new Stack<>();
-    private int size;
+    private final int size;
 
     public Bottle(int size) {
-        size = this.size;
+        this.size = size;
     }
 
     public boolean isEmpty() {
@@ -66,5 +66,11 @@ public class Bottle {
             return true;
         }
         return false;
+    }
+
+    public void assignColor(String color) {
+        if (!isFull()) {
+            stack.push(color);
+        }
     }
 }
