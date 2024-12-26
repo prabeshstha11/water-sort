@@ -74,9 +74,12 @@ public class Bottle {
         }
     }
 
+    public Stack<String> getBottle() {
+        return stack;
+    }
+
     @Override
     public String toString() {
         return "Bottle{" + "size=" + size + ", stack=" + stack + '}';
     }
-
 }

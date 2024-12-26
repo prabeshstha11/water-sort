@@ -2,6 +2,7 @@ package com.watersort.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 import com.watersort.config.Config;
 
@@ -41,5 +42,13 @@ public class GameState {
 
     public ArrayList<Bottle> getBottle() {
         return bottle;
+    }
+
+    public ArrayList<Stack<String>> getBottleStack() {
+        ArrayList<Stack<String>> bottleStack = new ArrayList<>();
+        for (Bottle b : bottle) {
+            bottleStack.add(b.getBottle());
+        }
+        return bottleStack;
     }
 }
