@@ -2,7 +2,6 @@ package com.watersort.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -19,10 +18,6 @@ public class GameUI extends JPanel {
     Config config = new Config();
 
     public GameUI(ArrayList<Stack<String>> bottle) {
-        if (bottle == null) {
-            throw new IllegalArgumentException("Bottle list cannot be null");
-        }
-
         setLayout(new BorderLayout());
         JPanel gameContentPanel = new JPanel() {
             @Override
@@ -35,7 +30,6 @@ public class GameUI extends JPanel {
                 int bottleSpacing = 20;
                 int liquidHeight = 40;
 
-                // Clear existing bounds
                 bottleBounds.clear();
 
                 for (int i = 0; i < bottle.size(); i++) {
@@ -45,14 +39,11 @@ public class GameUI extends JPanel {
                     Rectangle bottleRectangle = new Rectangle(x, y, bottleWidth, bottleHeight);
                     bottleBounds.add(bottleRectangle);
 
-                    // Draw bottle outline
                     g2d.setColor(Color.BLACK);
                     g2d.drawRect(x, y, bottleWidth, bottleHeight);
 
-                    // Get stack for this bottle
                     Stack<String> stack = bottle.get(i);
 
-                    // Draw each liquid inside the bottle
                     if (stack != null) {
                         for (int j = 0; j < stack.size(); j++) {
                             String colorName = stack.get(j);
@@ -71,7 +62,6 @@ public class GameUI extends JPanel {
             }
         };
 
-        gameContentPanel.setPreferredSize(new Dimension(800, 600));
         add(gameContentPanel, BorderLayout.CENTER);
     }
 }
