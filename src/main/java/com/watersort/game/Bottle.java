@@ -15,6 +15,14 @@ public class Bottle {
         return stack.size() == maxCapacity;
     }
 
+    public int size() {
+        return stack.size();
+    }
+
+    public int getMaxSize() {
+        return maxCapacity;
+    }
+
     public boolean isEmpty() {
         return stack.isEmpty();
     }

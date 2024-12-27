@@ -29,6 +29,16 @@ public class Game {
         String topColor = fromBottle.getTop();
         int count = fromBottle.countTopDuplicates();
 
+        System.out.println(topColor);
+        System.out.println(count);
+        System.out.println(toBottle.size());
+        System.out.println(toBottle.getMaxSize());
+
+        boolean canTransfer = count + toBottle.size() <= toBottle.getMaxSize();
+        if (!canTransfer) {
+            return false;
+        }
+
         fromBottle.remove();
         toBottle.add(topColor, count);
 
