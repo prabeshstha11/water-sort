@@ -16,7 +16,7 @@ public class GameState {
 
     private final String[] colors = config.getColors();
 
-    public ArrayList<Bottle> bottle = new ArrayList<>();
+    public static ArrayList<Bottle> bottle = new ArrayList<>();
 
     public void bottleInitializer() {
         for (int i = 0; i < BOTTLE_COUNT; i++) {
