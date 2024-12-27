@@ -24,7 +24,7 @@ public class GameUI extends JPanel {
     AudioManager audioManager = new AudioManager();
     Integer selectedBottleIndex = null;
 
-    public GameUI(ArrayList<Stack<String>> bottle, Game game) {
+    public GameUI(Game game) {
         setLayout(new BorderLayout());
         JPanel gameContentPanel = new JPanel() {
             @Override
@@ -38,6 +38,7 @@ public class GameUI extends JPanel {
                 int liquidHeight = 40;
 
                 bottleBounds.clear();
+                ArrayList<Stack<String>> bottle = game.getCurrentGameState();
 
                 for (int i = 0; i < bottle.size(); i++) {
                     int x = 50 + i * (bottleWidth + bottleSpacing);

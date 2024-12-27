@@ -44,11 +44,11 @@ public class GameState {
         return bottle;
     }
 
-    public ArrayList<Stack<String>> getBottleStack() {
-        ArrayList<Stack<String>> bottleStack = new ArrayList<>();
+    public ArrayList<Stack<String>> getCurrentGameState() {
+        ArrayList<Stack<String>> bottleList = new ArrayList<>();
         for (Bottle b : bottle) {
-            bottleStack.add(b.getBottle());
+            bottleList.add(b.getBottle());
         }
-        return bottleStack;
+        return bottleList;
     }
 }

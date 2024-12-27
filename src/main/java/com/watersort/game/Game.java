@@ -1,13 +1,16 @@
 package com.watersort.game;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class Game {
     public static GameState gameState = new GameState();
+    public LinkedList<ArrayList<Stack<String>>> history = new LinkedList<>();
 
     public Game() {
         gameState.bottleInitializer();
+        saveState();
     }
 
     public boolean transfer(int from, int to) {
@@ -18,22 +21,33 @@ public class Game {
             return false;
 
         if (!toBottle.isEmpty()) {
-            if (!fromBottle.top().equals(toBottle.top())) {
+            if (!fromBottle.getTop().equals(toBottle.getTop())) {
                 return false;
             }
         }
 
-        String topColor = fromBottle.top();
-        int count = fromBottle.countDuplicate();
+        String topColor = fromBottle.getTop();
+        int count = fromBottle.countTopDuplicates();
 
-        fromBottle.removeTop(count);
+        fromBottle.remove();
         toBottle.add(topColor, count);
 
-        System.out.println(from + to);
+        saveState();
+        System.out.println(history);
         return true;
     }
 
-    public ArrayList<Stack<String>> getState() {
-        return gameState.getBottleStack();
+    private void saveState() {
+        ArrayList<Stack<String>> currentState = new ArrayList<>();
+        for (Bottle b : gameState.getBottle()) {
+            Stack<String> bottleCopy = new Stack<>();
+            bottleCopy.addAll(b.getBottle());
+            currentState.add(bottleCopy);
+        }
+        history.add(currentState);
+    }
+
+    public ArrayList<Stack<String>> getCurrentGameState() {
+        return history.getLast();
     }
 }

@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         // create a new game
         Game game = new Game();
-        GameUI gameUI = new GameUI(game.getState(), game);
+        GameUI gameUI = new GameUI(game);
 
         // frame settings
         JFrame frame = new JFrame("Water Sort Game");

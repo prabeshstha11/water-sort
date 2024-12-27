@@ -3,36 +3,69 @@ package com.watersort.game;
 import java.util.Stack;
 
 public class Bottle {
-    private final Stack<String> stack = new Stack<>();
-    public final int size;
+    public final Stack<String> stack;
+    public final int maxCapacity;
 
-    public Bottle(int size) {
-        this.size = size;
+    public Bottle(int maxCapacity) {
+        this.stack = new Stack<>();
+        this.maxCapacity = maxCapacity;
+    }
+
+    public boolean isFull() {
+        return stack.size() == maxCapacity;
     }
 
     public boolean isEmpty() {
         return stack.isEmpty();
     }
 
-    public boolean isFull() {
-        return stack.size() == size;
-    }
-
-    public String top() {
-        if (isEmpty()) {
+    public String getTop() {
+        if (stack.isEmpty()) {
             return null;
         }
         return stack.peek();
     }
 
-    public int countDuplicate() {
-        if (isEmpty()) {
-            return 0;
+    public boolean add(String color, int count) {
+        if (stack.size() + count > maxCapacity) {
+            return false;
         }
-        String topColor = top();
+        if (!stack.isEmpty() && !stack.peek().equals(color)) {
+            return false;
+        }
+        for (int i = 0; i < count; i++) {
+            stack.push(color);
+        }
+        return true;
+    }
+
+    public boolean assignColor(String color) {
+        if (stack.size() >= maxCapacity) {
+            return false;
+        }
+        stack.push(color);
+        return true;
+    }
+
+    public void remove() {
+        if (stack.isEmpty()) {
+            return;
+        }
+        String topColor = stack.peek();
+        while (!stack.isEmpty() && stack.peek().equals(topColor)) {
+            stack.pop();
+        }
+    }
+
+    public int countTopDuplicates() {
+        if (stack.isEmpty())
+            return 0;
+
+        String topColor = stack.peek();
         int count = 0;
-        for (String color : stack) {
-            if (color.equals(topColor)) {
+
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            if (stack.get(i).equals(topColor)) {
                 count++;
             } else {
                 break;
@@ -41,45 +74,7 @@ public class Bottle {
         return count;
     }
 
-    public void removeTop(int count) {
-        for (int i = 0; i < count; i++) {
-            if (!isEmpty()) {
-                stack.pop();
-            } else {
-                break;
-            }
-        }
-    }
-
-    public boolean add(String color, int count) {
-        if (isEmpty()) {
-            for (int i = 0; i < count; i++) {
-                stack.push(color);
-            }
-            return true;
-        } else if (isFull()) {
-            return false;
-        } else if (top().equals(color) && (stack.size() + count <= size)) {
-            for (int i = 0; i < count; i++) {
-                stack.push(color);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public void assignColor(String color) {
-        if (!isFull()) {
-            stack.push(color);
-        }
-    }
-
     public Stack<String> getBottle() {
         return stack;
-    }
-
-    @Override
-    public String toString() {
-        return "Bottle{" + "size=" + size + ", stack=" + stack + '}';
     }
 }
