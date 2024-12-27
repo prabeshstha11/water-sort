@@ -11,4 +11,9 @@ public class Game {
         gameState.bottleInitializer();
         gameStep.addStep(gameState.getBottleStack());
     }
+
+    public boolean transfer(int from, int to) {
+        System.out.println(from + to);
+        return true;
+    }
 }

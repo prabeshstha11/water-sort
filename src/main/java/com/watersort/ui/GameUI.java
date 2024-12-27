@@ -4,20 +4,27 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.JPanel;
 
+import com.watersort.config.AudioManager;
 import com.watersort.config.Config;
+import com.watersort.game.Game;
 
 public class GameUI extends JPanel {
 
     private ArrayList<Rectangle> bottleBounds = new ArrayList<>();
     Config config = new Config();
+    AudioManager audioManager = new AudioManager();
+    Integer selectedBottleIndex = null;
 
-    public GameUI(ArrayList<Stack<String>> bottle) {
+    public GameUI(ArrayList<Stack<String>> bottle, Game game) {
         setLayout(new BorderLayout());
         JPanel gameContentPanel = new JPanel() {
             @Override
@@ -61,6 +68,31 @@ public class GameUI extends JPanel {
                 }
             }
         };
+
+        gameContentPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Point point = e.getPoint();
+
+                for (int i = 0; i < bottleBounds.size(); i++) {
+                    if (bottleBounds.get(i).contains(point)) {
+                        if (selectedBottleIndex == null) {
+                            selectedBottleIndex = i;
+                            audioManager.playSelectEffect();
+                        } else {
+                            if (game.transfer(selectedBottleIndex, i)) {
+                                audioManager.playPourEffect();
+                                repaint();
+                            } else {
+                                audioManager.playErrorEffect();
+                            }
+                            selectedBottleIndex = null;
+                        }
+                        break;
+                    }
+                }
+            }
+        });
 
         add(gameContentPanel, BorderLayout.CENTER);
     }
