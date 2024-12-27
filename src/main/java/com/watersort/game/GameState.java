@@ -19,6 +19,7 @@ public class GameState {
     public static ArrayList<Bottle> bottle = new ArrayList<>();
 
     public void bottleInitializer() {
+        bottle.clear();
         for (int i = 0; i < BOTTLE_COUNT; i++) {
             bottle.add(new Bottle(BOTTLE_SIZE));
         }

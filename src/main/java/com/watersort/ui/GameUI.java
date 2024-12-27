@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.watersort.config.AudioManager;
@@ -39,6 +40,7 @@ public class GameUI extends JPanel {
 
                 bottleBounds.clear();
                 ArrayList<Stack<String>> bottle = game.getCurrentGameState();
+                System.out.println(bottle);
 
                 for (int i = 0; i < bottle.size(); i++) {
                     int x = 50 + i * (bottleWidth + bottleSpacing);
@@ -96,5 +98,24 @@ public class GameUI extends JPanel {
         });
 
         add(gameContentPanel, BorderLayout.CENTER);
+
+        JPanel controlPanel = new JPanel();
+        JButton undoButton = new JButton("Undo");
+        JButton newGameButton = new JButton("New Game");
+
+        undoButton.addActionListener(e -> {
+            if (game.performUndo())
+                repaint();
+        });
+
+        newGameButton.addActionListener(e -> {
+            game.startNewGame();
+            repaint();
+        });
+
+        controlPanel.add(undoButton);
+        controlPanel.add(newGameButton);
+
+        add(controlPanel, BorderLayout.SOUTH);
     }
 }

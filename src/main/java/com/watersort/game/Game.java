@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import com.watersort.config.AudioManager;
+
 public class Game {
     public static GameState gameState = new GameState();
     public LinkedList<ArrayList<Stack<String>>> history = new LinkedList<>();
@@ -29,10 +31,10 @@ public class Game {
         String topColor = fromBottle.getTop();
         int count = fromBottle.countTopDuplicates();
 
-        System.out.println(topColor);
-        System.out.println(count);
-        System.out.println(toBottle.size());
-        System.out.println(toBottle.getMaxSize());
+        // System.out.println(topColor);
+        // System.out.println(count);
+        // System.out.println(toBottle.size());
+        // System.out.println(toBottle.getMaxSize());
 
         boolean canTransfer = count + toBottle.size() <= toBottle.getMaxSize();
         if (!canTransfer) {
@@ -55,6 +57,28 @@ public class Game {
             currentState.add(bottleCopy);
         }
         history.add(currentState);
+    }
+
+    AudioManager audioManager = new AudioManager();
+
+    public boolean performUndo() {
+        if (history.size() > 1) {
+            // gameState.set(history);
+            history.removeLast();
+            System.out.println(history);
+            audioManager.playUndoEffect();
+            return true;
+        }
+        audioManager.playErrorEffect();
+        return false;
+    }
+
+    public boolean startNewGame() {
+        gameState.bottleInitializer();
+        history.clear();
+        saveState();
+        audioManager.playRestartEffect();
+        return true;
     }
 
     public ArrayList<Stack<String>> getCurrentGameState() {
