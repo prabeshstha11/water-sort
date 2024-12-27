@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class Bottle {
     private final Stack<String> stack = new Stack<>();
-    private final int size;
+    public final int size;
 
     public Bottle(int size) {
         this.size = size;

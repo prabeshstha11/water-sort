@@ -23,27 +23,27 @@ public class AudioManager {
         }
     }
 
-    public static void playSelectEffect() {
+    public void playSelectEffect() {
         playAudio("sfx/select.wav");
     }
 
-    public static void playPourEffect() {
+    public void playPourEffect() {
         playAudio("sfx/pour.wav");
     }
 
-    public static void playErrorEffect() {
+    public void playErrorEffect() {
         playAudio("sfx/error.wav");
     }
 
-    public static void playUndoEffect() {
+    public void playUndoEffect() {
         playAudio("sfx/undo.wav");
     }
 
-    public static void playRestartEffect() {
+    public void playRestartEffect() {
         playAudio("sfx/restart.wav");
     }
 
-    public static void playNewGameEffect() {
+    public void playNewGameEffect() {
         playAudio("sfx/new.wav");
     }
 }
