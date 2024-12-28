@@ -102,6 +102,7 @@ public class GameUI extends JPanel {
         JPanel controlPanel = new JPanel();
         JButton undoButton = new JButton("Undo");
         JButton newGameButton = new JButton("New Game");
+        JButton resetButton = new JButton("Restart");
 
         undoButton.addActionListener(e -> {
             game.performUndo();
@@ -113,7 +114,13 @@ public class GameUI extends JPanel {
             repaint();
         });
 
+        resetButton.addActionListener(e -> {
+            game.reset();
+            repaint();
+        });
+
         controlPanel.add(undoButton);
+        controlPanel.add(resetButton);
         controlPanel.add(newGameButton);
 
         add(controlPanel, BorderLayout.SOUTH);

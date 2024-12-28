@@ -92,6 +92,15 @@ public class Game {
         return true;
     }
 
+    public boolean reset() {
+        ArrayList<Stack<String>> initialState = history.getFirst();
+        history.clear();
+        history.add(initialState);
+        restoreState(initialState);
+        audioManager.playRestartEffect();
+        return true;
+    }
+
     public ArrayList<Stack<String>> getCurrentGameState() {
         return history.getLast();
     }
