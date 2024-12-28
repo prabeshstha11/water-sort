@@ -53,7 +53,9 @@ public class Game {
         ArrayList<Stack<String>> currentState = new ArrayList<>();
         for (Bottle b : gameState.getBottle()) {
             Stack<String> bottleCopy = new Stack<>();
-            bottleCopy.addAll(b.getBottle());
+            for (String color : b.getBottle()) {
+                bottleCopy.push(color);
+            }
             currentState.add(bottleCopy);
         }
         history.add(currentState);
@@ -63,9 +65,9 @@ public class Game {
 
     public boolean performUndo() {
         if (history.size() > 1) {
-            // gameState.set(history);
             history.removeLast();
-            System.out.println(history);
+            ArrayList<Stack<String>> previousState = history.getLast();
+            restoreState(previousState);
             audioManager.playUndoEffect();
             return true;
         }
@@ -73,9 +75,18 @@ public class Game {
         return false;
     }
 
+    private void restoreState(ArrayList<Stack<String>> state) {
+        ArrayList<Bottle> bottles = gameState.getBottle();
+        for (int i = 0; i < bottles.size(); i++) {
+            Stack<String> bottleStack = state.get(i);
+            bottles.get(i).stack.clear();
+            bottles.get(i).stack.addAll(bottleStack);
+        }
+    }
+
     public boolean startNewGame() {
-        gameState.bottleInitializer();
         history.clear();
+        gameState.bottleInitializer();
         saveState();
         audioManager.playRestartEffect();
         return true;

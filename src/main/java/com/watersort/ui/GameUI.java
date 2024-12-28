@@ -104,8 +104,8 @@ public class GameUI extends JPanel {
         JButton newGameButton = new JButton("New Game");
 
         undoButton.addActionListener(e -> {
-            if (game.performUndo())
-                repaint();
+            game.performUndo();
+            repaint();
         });
 
         newGameButton.addActionListener(e -> {
